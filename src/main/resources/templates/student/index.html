@@ -1,0 +1,245 @@
+
+<!doctype html>
+<html lang="en">
+
+    <head>
+        <title>Danh sách sinh viên</title>
+        <!-- Required meta tags -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
+
+        <!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+              integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    </head>
+
+    <body>
+        <!-- headert -->
+        <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #e3f2fd;">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="/">Trang chủ</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                        aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="/student">Danh sách sinh viên</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/course">Danh sách lớp hoc</a>
+                        </li>
+
+                        <li class="nav-item">
+                        <a class="nav-link" href="/student/year" tabindex="-1" aria-disabled="true">Danh sách sinh viên theo năm</a>
+                        </li>
+                    </ul>
+
+                </div>
+            </div>
+        </nav>
+
+ <div class="text-center">
+        <h1> Danh sách sinh viên</h1>
+       
+    </div>
+
+        <div id="nav" class="mb-3 ms-auto me-auto">
+            <nav class="navbar navbar-light">
+                <div class="container-fluid">
+                    <!-- <a class="navbar-brand p-2" href="/">Home</a> -->
+                    <div></div>
+                    <div class="d-flex flex-row">
+                        <h5 class="m-1">Sắp xếp:</h5>
+                        <select class="form-select m-1" id="sorttype" aria-label="Default select example">
+                            <option selected value="0">Theo thứ tự ID</option>
+                            <option value="1">Theo tên từ A-Z</option>
+                            <option value="2">Theo tên từ Z-A</option>
+                        </select>
+                        <form class="d-flex" method="get" action="/student/search">
+                            <input id ="searchValue"class="form-control me-2" name="searchValue" type="search" placeholder="Tìm theo tên" th:value="${search_value}" aria-label="Search">
+                            <button class="btn btn-outline-success" type="submit">Tìm</button>
+                        </form>
+                    </div>
+
+                </div>
+            </nav>
+        </div>
+
+        <div class="mb-3 ms-auto me-auto" id="mainview">
+            <div class="row m-0 ">
+                <!-- {{> side}} -->
+                <div id="side" class="col-7 col-md-3 ps-0">
+
+                    <div class="card h-100">
+                        <h5 class="card-header text-white bg-primary">Thêm sinh viên</h5>
+                        <div class="card-body">
+
+                            <form method="post" action="/student/add" modelAttribute="student">
+                                <div class="flex-row d-flex">
+                                    <label class="d-flex align-items-end"style="width: 105px;">ID:</label>
+                                    <input required type="number" class="form-control me-2 mt-2" name="id" placeholder="Id" aria-label="Id">
+
+                                </div>
+                                <div class="flex-row d-flex">
+                                    <label class="d-flex align-items-end" style="width: 105px;" >Tên:</label>
+                                    <input required class="form-control me-2 mt-2" name="name" placeholder="Họ tên" aria-label="Họ tên">
+
+                                </div>
+                                <div class="flex-row d-flex">
+                                    <label class="d-flex align-items-end" style="width: 105px;">Ngày sinh:</label>
+                                    <input required type = "date" class="form-control me-2 mt-2" name="birthday" placeholder="Ngày sinh" aria-label="Ngày sinh">
+
+                                </div>
+                                <div class="flex-row d-flex">
+                                    <label class="d-flex align-items-end" style="width: 105px;">Địa chỉ:</label>
+                                    <input required class="form-control me-2 mt-2" name="address" placeholder="Địa chỉ" aria-label="Địa chỉ">
+                                </div>
+                                <div class="flex-row d-flex">
+                                    <label class="d-flex align-items-end" style="width: 105px;">Ghi chú:</label>
+                                    <input class="form-control me-2 mt-2" name="notes" placeholder="Ghi chú" aria-label="Ghi chú">                  
+                                </div>
+
+                                <button class="btn btn-outline-success w-100 mt-2 ms-auto me-auto" type="submit">Add</button>
+                                <span th:if="${adderr == true}" class="error text-danger">Không thể thêm do ID sinh viên đã tồn tại</span>
+                            </form>
+                            <!-- {{#if addsuccess}}
+                            <div class="card text-white bg-success mt-5">
+                
+                              <div class="card-body">
+                                <h5 class="card-title">Add success</h5>
+                
+                              </div>
+                            </div>
+                            {{else}}
+                            {{/if}} -->
+                        </div>
+                    </div>
+                </div>
+                <!-- {{> main}} -->
+                <div id="main" class="col-md-9 pe-0">
+
+                    <div class="card h-100">
+                        <h5 class="card-header text-white bg-primary">Danh sách sinh viên</h5>
+                        <div class="card-body">
+                            <table class="table table-striped mb-4">
+                                <thead class="table-dark ">
+                                    <tr>
+                                        <th scope="col">Id</th>
+                                        <th scope="col">Họ tên</th>
+                                        <th scope="col">Ngày sinh</th>
+                                        <th scope="col">Địa chỉ</th>
+                                        <th scope="col">Ghi chú</th>
+                                        <th scope="col">Thao tác</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="studentListData">
+                                    <tr th:each="item: ${studentList}">
+
+                                        <th scope="row" th:text="${item.id}"></th>
+                                        <td th:text="${item.name}"></td>
+                                        <td th:text="${item.birthday}"></td>
+                                        <td th:text="${item.address}"></td>
+                                        <td th:text="${item.notes}"></td>
+                                        <td> 
+                                            <a th:href="@{'/student/' + ${item.id}}">
+                                                <button class="btn btn-primary">Xem</button> 
+                                            </a>
+                                        </td>
+
+                                    </tr>
+                                </tbody>
+
+                            </table>
+                            <div id="btnfunction">
+                                <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
+                                    <div id="listbtn" class="btn-group me-2" role="group" aria-label="First group">
+
+                                        <!-- {{> button}} -->
+
+
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- {{/if}} -->
+                </div>
+            </div>
+        </div>
+
+
+        <!-- Optional JavaScript -->
+
+        <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+        <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+        <!-- links to popper js and bootsrap js -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+        <script>
+            function checkAdd()
+            {
+                if ($("#id").val()=="" || $("#name").val()=="" || $("#birthday").val() =="" || $("#address").val()=="")
+                {
+                    
+                }
+                    
+            }
+        </script>
+            
+        <script>
+            $(document).ready(function ()
+            {
+                $('#sorttype').on('change', function (event)
+                {
+                    event.preventDefault();
+                    var value1 = $('option:selected', this).val();
+                    var searchValue = $('#searchValue').val();
+                    var value = {'value': value1,'searchValue': searchValue};
+                    $.ajax({
+                        url: location.origin + "/student/changesorttype",
+                        data: JSON.stringify(value),
+                        type: "POST",
+                        beforeSend: function (xhr)
+                        {
+                            xhr.setRequestHeader("Accept", "application/json");
+                            xhr.setRequestHeader("Content-Type", "application/json");
+                        },
+                        error: function (error) {
+                        },
+                        success: function (data)
+                        {
+                            console.log(data);
+                            text = '';
+                            $("#studentListData").html("");
+                            for (let i = 0; i < data.length; i++) {
+                                text = text + ` <tr>
+                                        <th scope="row">${data[i].id}</th>
+                                        <td >${data[i].name}</td>
+                                        <td>${data[i].birthday}</td>
+                                        <td>${data[i].address}</td>
+                                        <td>${data[i].notes}</td>
+                                        <td> 
+                                            <a href="/student/${data[i].id}">
+                                                <button class="btn btn-primary">Xem</button> 
+                                            </a>
+                                        </td>
+
+                                    </tr>`;
+                            }
+                                                    $("#studentListData").html(text);
+
+                        }
+                    });
+                });
+            });
+
+//              
+        </script>
+    </body>
+
+</html>

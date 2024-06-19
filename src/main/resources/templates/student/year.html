@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>Sinh viên theo năm</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+
+<body>
+    <!-- header -->
+    <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #e3f2fd;">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">Trang chủ</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link" aria-current="page" href="/student">Danh sách sinh viên</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/course">Danh sách lớp hoc</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link active" href="/student/year" tabindex="-1" aria-disabled="true">Danh sách sinh viên theo năm</a>
+                    </li>
+                </ul>
+
+            </div>
+        </div>
+    </nav>
+   
+ <div class="text-center">
+        <h1> Tìm sinh viên theo năm lớp học</h1>
+       
+    </div>
+
+
+
+    <div class="mb-3 ms-auto me-auto" id="mainview">
+        <div class="row m-0 d-flex justify-content-center">
+            <!-- {{> side}} -->
+            <div id="side" class="col-7 col-md-3 ps-0">
+
+                <div class="card h-100">
+                    <h5 class="card-header text-white bg-primary">Nhập vào năm muốn tìm</h5>
+                    <div class="card-body">
+                        <form class="d-flex" method="get" action="/student/year/search">
+                            <input id="year" class="form-control me-2" name="year" required type='number' inputmode='numeric' placeholder="Tìm theo năm" th:value="${year}" aria-label="search">
+                            <!-- <input id="searchname" class="form-control me-2" name="searchname" type="search" placeholder="Tìm theo tên" th:value="${searchname}" aria-label="Search"> -->
+                            <button class="btn btn-outline-success" type="submit">Search</button>
+                        </form>
+        
+                    </div>
+                </div>
+            </div>
+            <!-- {{> main}} -->
+            <div id="main" class="col-md-9 pe-1">
+
+                <div class="card h-100">
+                    <h5 class="card-header text-white bg-primary">Danh sách tìm kiếm</h5>
+                    <div class="card-body">
+                        <table class="table table-striped mb-4">
+                            <thead class="table-dark ">
+                                <tr>
+                                    <th scope="col">Năm</th>
+
+                                    <th scope="col">Id sinh viên</th>
+                                    <th scope="col">Họ tên sinh viên</th>
+                                    <th scope="col">Id lớp</th>
+                                    <th scope="col">Tên lớp</th>
+                                    <th scope="col">Điểm</th>
+                                    <th scope="col">Thao tác</th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr th:each="item: ${studentList}">
+                                    <th scope="row" th:text="${item.course.year}"></th>
+
+                                    <td th:text="${item.student.id}"></th>
+                                    <td th:text="${item.student.name}"></td>
+                                    <td th:text="${item.course.id}"></td>
+                                    <td th:text="${item.course.name}"></td>
+                                    <td th:text="${item.grade}"></td>
+                                    <td>
+                                        <a th:href="@{'/student/' + ${item.student.id}}">
+                                            <button class="btn btn-primary">Xem</button>
+                                        </a>
+                                        
+                                    </td>
+
+                                </tr>
+                            </tbody>
+
+                        </table>
+                            
+                    </div>
+                </div>
+                <!-- {{/if}} -->
+            </div>
+        </div>
+    </div>
+    <!-- {{> bottom}} -->
+    <!-- bảng danh sách
+        <div class="container-fluid">
+            <table class="table table-striped table-sm">
+                <thead>
+                    <tr>
+                        <th scope="col">ID</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Birthday</th>
+                        <th scope="col">Address</th>
+                        <th scope="col">Notes</th>
+    
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th scope="row">1</th>
+                        <td>Mark</td>
+                        <td>Otto</td>
+                        <td>@mdo</td>
+                        <td>Otto</td>
+    
+                    </tr>
+                    <tr>
+                        <th scope="row">2</th>
+                        <td>Jacob</td>
+                        <td>Thornton</td>
+                        <td>@fat</td>
+                        <td>Otto</td>
+    
+                    </tr>
+                    <tr>
+                        <th scope="row">3</th>
+                        <td>Larry</td>
+                        <td>the Bird</td>
+                        <td>@twitter</td>
+                        <td>Otto</td>
+    
+                    </tr>
+                </tbody>
+            </table>
+        </div> -->
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>

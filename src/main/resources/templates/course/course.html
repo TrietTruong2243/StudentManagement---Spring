@@ -1,0 +1,336 @@
+
+<!doctype html>
+<html lang="en">
+
+    <head>
+        <title>Thông tin môn học</title>
+        <!-- Required meta tags -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+        <!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+              integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+         <script>
+            function testGrade(id){
+                var value = $(`#grade${id}`).val();
+                if (value <0 || value >10)
+                {
+                    alert("Không hợp lệ");
+                    return false;
+                }
+                else
+                {
+                    return true;
+                }
+            }
+        </script>
+    </head>
+
+    <body>
+        <!-- header -->
+        <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #e3f2fd;">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="/">Trang chủ</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                        aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <li class="nav-item">
+                            <a class="nav-link" aria-current="page" href="/student">Danh sách sinh viên</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link  active" href="/course">Danh sách lớp hoc</a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link" href="/student/year" tabindex="-1" aria-disabled="true">Danh sách sinh viên theo năm</a>
+                        </li>
+                    </ul>
+
+                </div>
+            </div>
+        </nav>
+
+ <div class="text-center">
+        <h1> Thông tin lớp học</h1>
+       
+    </div>
+
+
+        <div id="nav" class="mb-3 ms-auto me-auto">
+            <nav class="navbar navbar-light">
+                <div class="container-fluid">
+                    <!-- <a class="navbar-brand p-2" href="/">Home</a> -->
+                    <div></div>
+                    <div class="d-flex flex-row">
+
+                        <button class="btn btn-primary" data-toggle="modal"  data-target="#exampleModalLong">Thêm sinh viên</button> 
+                        <div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLongTitle">Thêm sinh viên vào lớp</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <!-- <div class="card h-100"> -->
+                                        <!-- <h5 class="card-header text-white bg-primary">Thêm học sinh</h5> -->
+                                        <div class="card-body">
+                                            <table class="table table-striped mb-4">
+                                                <thead class="table-dark ">
+                                                    <tr>
+                                                        <th scope="col">Id</th>
+                                                        <th scope="col">Tên học sinh</th>
+                                                        <th scope="col">Thao tác</th>
+
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr th:each="item: ${studentAddList}">
+
+                                                        <th scope="row" th:text="${item.id}"></th>
+                                                        <td th:text="${item.name}"></td>
+                                                        <td> 
+                                                            <!--<a th:href="@{'/'+${course.id}+'/add_student/' + ${item.id}}">-->
+                                                            <form method="post"  th:action="@{'/course/'+${course.id}+'/add_student'}">
+                                                                <input class="d-none" name="student_id" th:value="${item.id}" />
+                                                                <button class="btn btn-primary" type="submit">Thêm</button> 
+                                                            </form>
+                                                            <!--</a>-->
+                                                        </td>
+
+                                                    </tr>
+                                                </tbody>
+
+                                            </table>
+                                            <div id="btnfunction">
+                                                <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
+                                                    <div id="listbtn" class="btn-group me-2" role="group" aria-label="First group">
+
+                                                        <!-- {{> button}} -->
+
+
+
+                                                    </div>
+                                                </div>
+                                                <!-- </div> -->
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                        <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </nav>
+        </div>
+
+        <div class="mb-3 ms-auto me-auto" id="mainview">
+            <div class="row m-0 d-flex justify-content-center">
+                <!-- {{> side}} -->
+                <div id="side" class="col-7 col-md-3 ps-0">
+
+                    <div class="card h-100">
+                        <h5 class="card-header text-white bg-primary">Thông tin lớp học</h5>
+                        <div class="card-body">
+
+                            <!--<form method="post" action="/add">-->
+                            <div class="flex-row d-flex">
+                                <label class="d-flex align-items-end"style="width: 100px;">ID:</label>
+                                <input type="number" readonly class="form-control me-2 mt-2" name="id" placeholder="Id" aria-label="Id" th:value="${course.id}">
+
+                            </div>
+                            <div class="flex-row d-flex">
+                                <label class="d-flex align-items-end" style="width: 100px;" >Tên:</label>
+                                <input class="form-control me-2 mt-2" readonly name="name" placeholder="Tên môn học" aria-label="Tên môn học" th:value="${course.name}">
+
+                            </div>
+                            <div class="flex-row d-flex">
+                                <label class="d-flex align-items-end" style="width: 100px;">Giáo viên:</label>
+                                <input  class="form-control me-2 mt-2" readonly name="birthday" placeholder="Giáo viên" aria-label="Giáo viên" th:value="${course.lecture}">
+
+                            </div>
+                            <div class="flex-row d-flex">
+                                <label class="d-flex align-items-end" style="width: 100px;">Năm:</label>
+                                <input type="number" class="form-control me-2 mt-2"  readonly name="address" placeholder="Năm" aria-label="Năm"th:value="${course.year}">
+                            </div>
+                            <div class="flex-row d-flex">
+                                <label class="d-flex align-items-end" style="width: 100px;">Ghi chú:</label>
+                                <input class="form-control me-2 mt-2" name="notes"  readonly placeholder="Ghi chú" aria-label="Ghi chú" th:value="${course.notes}">                  
+                            </div>
+
+                            <div class="d-flex justify-content-around mt-5">
+
+                                <form method="post" action="/course/update">
+                                    <input class="d-none" name="id" th:value="${course.id}" />
+                                    <button type="button" class="btn btn-primary" data-toggle="modal"  data-target="#changecourseinfo">Cập nhật thông tin</button> 
+
+                                    <!-- <button type="submit" class="btn btn-primary">Update</button> -->
+                                    <div class="modal fade" id="changecourseinfo" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+                                        <div class="modal-dialog" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="exampleModalLongTitle">Điều chỉnh thông tin lớp học</h5>
+                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <div class="flex-row d-flex">
+                                                        <label class="d-flex align-items-end"style="width: 100px;">ID:</label>
+                                                        <input required type="number" readonly class="form-control me-2 mt-2" name="id" placeholder="Id" aria-label="Id" th:value="${course.id}">
+
+                                                    </div>
+                                                    <div class="flex-row d-flex">
+                                                        <label class="d-flex align-items-end" style="width: 100px;" >Tên:</label>
+                                                        <input required class="form-control me-2 mt-2" name="name" placeholder="Tên môn học" aria-label="Tên môn học" th:value="${course.name}">
+
+                                                    </div>
+                                                    <div class="flex-row d-flex">
+                                                        <label class="d-flex align-items-end" style="width: 100px;">Giáo viên:</label>
+                                                        <input required class="form-control me-2 mt-2" name="lecture" placeholder="Giáo viên" aria-label="Giáo viên" th:value="${course.lecture}">
+
+                                                    </div>
+                                                    <div class="flex-row d-flex">
+                                                        <label class="d-flex align-items-end" style="width: 100px;">Năm:</label>
+                                                        <input type="number" class="form-control me-2 mt-2"  name="year" placeholder="Năm" aria-label="Năm"th:value="${course.year}">
+                                                    </div>
+                                                    <div class="flex-row d-flex">
+                                                        <label class="d-flex align-items-end" style="width: 100px;">Ghi chú:</label>
+                                                        <input class="form-control me-2 mt-2" name="notes"  placeholder="Ghi chú" aria-label="Ghi chú" th:value="${course.notes}">                  
+                                                    </div>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="submit" class="btn btn-primary">Cập nhật</button>
+
+                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                    <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                                <form method="post" onsubmit="return confirm('Bạn có muốn xóa lớp học này ko?')" action="/course/delete">
+                                    <input class="btn btn-danger d-none" name="id" th:value="${course.id}" />
+                                    <button type="submit" class="btn btn-danger">Xóa</button>
+                                </form>
+                            </div>           
+                            <!--</form>-->
+                        </div>
+                    </div>
+                </div>
+                <!-- {{> main}} -->
+                <div id="main" class="col-md-9 pe-1">
+
+                    <div class="card h-100">
+                        <h5 class="card-header text-white bg-primary">Danh sách sinh viên</h5>
+                        <div class="card-body">
+                            <table class="table table-striped mb-4">
+                                <thead class="table-dark ">
+                                    <tr>
+                                        <!--<th scope="col">STT</th>-->
+
+                                        <th scope="col">Id</th>
+                                        <th scope="col">Tên học sinh:</th>
+                                        <th scope="col">Điểm:</th>
+                                        <th scope="col">Thao tác:</th>
+
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                    <tr th:each="item: ${studentInCourseList}">
+
+                                        <th scope="row" th:text="${item.student.id}"></th>
+                                        <td th:text="${item.student.name}"></td>
+                                        <td th:text="${item.grade}"></td>
+
+                                        <td class="d-flex flex-direction-row"> 
+
+
+                                            <button class="btn btn-primary" data-toggle="modal"  th:data-target="'#grademodal_' + ${item.id}">Cập nhật điểm</button> 
+
+                                            <div class="modal fade" th:id="'grademodal_' + ${item.id}" tabindex="-1" role="dialog" aria-labelledby="grademodal" aria-hidden="true">
+                                                <div class="modal-dialog" role="document">
+                                                    <div class="modal-content">
+                                                        <form class="gradeform" th:id="${item.id}" onsubmit="return testGrade(this.getAttribute('id'));" method ="POST" th:action = "@{'/course/'+${course.id}+'/update_grade'}">
+
+                                                            <div class="modal-header">
+                                                                <h5 class="modal-title" id="exampleModalLabel">Nhập điểm</h5>
+                                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                    <span aria-hidden="true">&times;</span>
+                                                                </button>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                <div class="form-group">
+                                                                    <input class="btn btn-danger d-none" name="csid" th:value="${item.id}" />
+
+                                                                    <label for="recipient-name" class="col-form-label">Điểm:</label>
+                                                                    <input type="number" step="0.01" class="form-control" name="grade" th:id="'grade' + ${item.id}" th:value="${item.grade}">
+                                                                </div>
+                                                                <button type="submit" class="btn btn-primary">Lưu</button>
+
+                                                            </div>
+                                                        </form>
+
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                            <!--                                                            <button type="button" class="btn btn-primary">Send message</button>-->
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <form method ="POST" onsubmit="return confirm('Bạn có muốn xóa học sinh này khỏi lớp học không?')" th:action = "@{'/course/'+${course.id}+'/delete_student'}">
+                                                <input class="d-none" name="csid" th:value="${item.id}" />
+                                                <button class="btn btn-danger">Xóa</button> 
+                                            </form>
+                                        </td>
+
+                                    </tr>
+                                </tbody>
+
+                            </table>
+                            <div id="btnfunction">
+                                <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
+                                    <div id="listbtn" class="btn-group me-2" role="group" aria-label="First group">
+
+                                        <!-- {{> button}} -->
+
+
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- {{/if}} -->
+                </div>
+            </div>
+        </div>
+       
+        <!-- Optional JavaScript -->
+        <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+                integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+                integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+                integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+    </body>
+
+</html>

@@ -1,0 +1,261 @@
+<!doctype html>
+<html lang="en">
+
+    <head>
+        <title>Thông tin sinh viên</title>
+        <!-- Required meta tags -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+        <!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+              integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    </head>
+
+    <body>
+        <!-- header -->
+        <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #e3f2fd;">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="/">Trang chủ</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                        aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="/student">Danh sách sinh viên</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/course">Danh sách lớp hoc</a>
+                        </li>
+
+                        <li class="nav-item">
+                        <a class="nav-link" href="/student/year" tabindex="-1" aria-disabled="true">Danh sách sinh viên theo năm</a>
+                        </li>
+                    </ul>
+
+                </div>
+            </div>
+        </nav>
+        <!-- <nav class="navbar navbar-light bg-light">
+        <div class="container-fluid">
+          <a class="navbar-brand">Navbar</a>
+    
+          <form class="d-flex">
+            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+            <button class="btn btn-outline-success" type="submit">Search</button>
+          </form>
+          <button type="button" class="btn btn-primary">Primary</button>
+    
+        </div>
+      </nav> -->
+
+
+ <div class="text-center">
+        <h1> Thông tin sinh viên</h1>
+       
+    </div>
+
+
+        <div class="mb-3 ms-auto me-auto" id="mainview">
+            <div class="row m-0 d-flex justify-content-center">
+                <!-- {{> side}} -->
+                <div id="side" class="col-7 col-md-3 ps-0">
+
+                    <div class="card h-100">
+                        <h5 class="card-header text-white bg-primary">Thông tin sinh viên</h5>
+                        <div class="card-body">
+                            <div class="flex-row d-flex">
+                                <label class="d-flex align-items-end" style="width: 100px;">ID:</label>
+                                <input type="text" readonly class="form-control me-2 mt-2" id="Id" th:value="${student.Id}">
+                            </div>
+                            <div class="flex-row d-flex">
+                                <label class="d-flex align-items-end" style="width: 100px;">Họ tên:</label>
+                                <input type="text" readonly class="form-control me-2 mt-2" id="Name" th:value="${student.Name}">
+                            </div>
+                            <div class="flex-row d-flex">
+                                <label class="d-flex align-items-end" style="width: 100px;">Ngày sinh:</label>
+                                <input type="date" readonly class="form-control me-2 mt-2" id="Birthday" th:value="${student.Birthday}">
+                            </div>
+                            <div class="flex-row d-flex">
+                                <label class="d-flex align-items-end" style="width: 100px;">Địa chỉ:</label>
+                                <input type="text" readonly class="form-control me-2 mt-2" id="Address" th:value="${student.Address}">
+                            </div>
+                            <div class="flex-row d-flex">
+                                <label class="d-flex align-items-end" style="width: 100px;">Ghi chú:</label>
+                                <input type="text" readonly class="form-control me-2 mt-2" id="Notes" th:value="${student.Notes}">
+                            </div>
+                            <div class="d-flex justify-content-around mt-5">
+
+                                <form method="post" action="/student/update">
+                                    <input class="d-none" name="id" th:value="${student.Id}" />
+                                    <!--<button type="button" class="btn btn-primary">Update</button>-->
+                                    <button type="button" class="btn btn-primary" data-toggle="modal"  data-target="#changestudentinfo">Điều chỉnh thông tin</button> 
+
+                                    <!-- <button type="submit" class="btn btn-primary">Update</button> -->
+                                    <div class="modal fade" id="changestudentinfo" tabindex="-1" role="dialog" aria-labelledby="changestudentinfo" aria-hidden="true">
+                                        <div class="modal-dialog" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="exampleModalLongTitle">Điều chỉnh thông tin sinh viên</h5>
+                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <div class="flex-row d-flex">
+                                                        <label class="d-flex align-items-end"style="width: 100px;">ID:</label>
+                                                        <input required type="number" readonly class="form-control me-2 mt-2" name="id" placeholder="Id" aria-label="Id" th:value="${student.id}">
+
+                                                    </div>
+                                                    <div class="flex-row d-flex">
+                                                        <label class="d-flex align-items-end" style="width: 100px;" >Họ tên:</label>
+                                                        <input required class="form-control me-2 mt-2" name="name" placeholder="Tên môn học" aria-label="Tên môn học" th:value="${student.name}">
+
+                                                    </div>
+                                                    <div class="flex-row d-flex">
+                                                        <label class="d-flex align-items-end" style="width: 100px;">Ngày sinh:</label>
+                                <input required type="date" class="form-control me-2 mt-2" id="Birthday" name= "birthday" th:value="${student.birthday}">
+
+                                                    </div>
+                                                    <div class="flex-row d-flex">
+                                                        <label class="d-flex align-items-end" style="width: 100px;">Địa chỉ:</label>
+                                                        <input required class="form-control me-2 mt-2"  name="address" placeholder="Địa chỉ" aria-label="Địa chỉ"  th:value="${student.Address}">
+                                                    </div>
+                                                    <div class="flex-row d-flex">
+                                                        <label class="d-flex align-items-end" style="width: 100px;">Ghi chú:</label>
+                                                        <input class="form-control me-2 mt-2" name="notes"  placeholder="Ghi chú" aria-label="Ghi chú" th:value="${student.notes}">                  
+                                                    </div>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="submit" class="btn btn-primary">Cập nhật</button>
+
+                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                    <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                                <form method="post" onsubmit="return confirm('Bạn có muốn xóa sinh viên này ko?')"
+                                      action="/student/delete">
+                                    <input class="btn btn-danger d-none" name="id" th:value="${student.Id}" />
+                                    <button type="submit" class="btn btn-danger">Xóa</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- {{> main}} -->
+                <div id="main" class="col-md-9 pe-1">
+
+                    <div class="card h-100">
+                        <h5 class="card-header text-white bg-primary">Danh sách lớp học</h5>
+                        <div class="card-body">
+                            <table class="table table-striped mb-4">
+                                <thead class="table-dark ">
+                                    <tr>
+                                        <th scope="col">Id</th>
+                                        <th scope="col">Tên lớp:</th>
+                                        <th scope="col">Điểm:</th>
+                                        <th scope="col">Thao tác:</th>
+
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr th:each="item: ${courseList}">
+
+                                        <th scope="row" th:text="${item.id}"></th>
+                                        <td th:text="${item.course.name}"></td>
+                                        <td th:text="${item.grade}"></td>
+
+                                        <td>
+                                            <a th:href="@{'/course/' + ${item.course.id}}">
+                                                <button class="btn btn-primary">Xem lớp học</button>
+                                            </a>
+                                            <!-- <a th:href="@{'/student/' + ${item.id}}">
+                                                <button class="btn btn-danger">Xóa</button>
+                                            </a> -->
+                                        </td>
+
+                                    </tr>
+                                </tbody>
+
+                            </table>
+                            <div id="btnfunction">
+                                <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
+                                    <div id="listbtn" class="btn-group me-2" role="group" aria-label="First group">
+
+                                        <!-- {{> button}} -->
+
+
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- {{/if}} -->
+                </div>
+            </div>
+        </div>
+        <!-- {{> bottom}} -->
+        <!-- bảng danh sách
+        <div class="container-fluid">
+            <table class="table table-striped table-sm">
+                <thead>
+                    <tr>
+                        <th scope="col">ID</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Birthday</th>
+                        <th scope="col">Address</th>
+                        <th scope="col">Notes</th>
+    
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th scope="row">1</th>
+                        <td>Mark</td>
+                        <td>Otto</td>
+                        <td>@mdo</td>
+                        <td>Otto</td>
+    
+                    </tr>
+                    <tr>
+                        <th scope="row">2</th>
+                        <td>Jacob</td>
+                        <td>Thornton</td>
+                        <td>@fat</td>
+                        <td>Otto</td>
+    
+                    </tr>
+                    <tr>
+                        <th scope="row">3</th>
+                        <td>Larry</td>
+                        <td>the Bird</td>
+                        <td>@twitter</td>
+                        <td>Otto</td>
+    
+                    </tr>
+                </tbody>
+            </table>
+        </div> -->
+
+        <!-- Optional JavaScript -->
+        <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+                integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+                integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+                integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+    </body>
+
+</html>
